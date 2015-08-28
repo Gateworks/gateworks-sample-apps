@@ -3,9 +3,9 @@
  * Description: Application to measure latency synchronously
  * Author: Pushpal Sidhu <psidhu@gateworks.com>
  * Created: Fri Aug 21 13:21:28 2015 (-0700)
- * Last-Updated: Tue Aug 25 13:51:08 2015 (-0700)
+ * Last-Updated: Fri Aug 28 14:35:23 2015 (-0700)
  *           By: Pushpal Sidhu
- *     Update #: 142
+ *     Update #: 143
  * Compatibility: Gateworks imx6 based product
  *
  * Compile: ${CC} gw-latency-tester.c -o gw-latency-tester
@@ -239,8 +239,8 @@ int main(int argc, char *argv[])
 		"GW53xx: 16 19 17 20\n"
 		"GW52xx: 16 19 17 20\n"
 		"GW51xx: 16 19 17 18\n"
-		"GW551x: Unsupported\n"
-		"GW552x: 16 19 17 20\n";
+		"GW552x: 16 19 17 20\n"
+		"GW551x (with GW16111 on J12): 224 225 226 227\n";
 
 	/* Parse cmdline */
 	if (argc < 5) {
