@@ -61,7 +61,7 @@ void _dbg(const char *func, unsigned int line,
 }
 
 /* aes_init - initialize cryptodev to use aes-cbc cipher */
-static int aes_init(struct crypt_info *ci, const uint8_t *key, uint key_size)
+static int aes_init(struct crypt_info *ci, const uint8_t *key, unsigned int key_size)
 {
 	dbg(2, "Configuring cryptodev to use CRYPTO_AES_CBC cipher\n");
 	/* tell cryptodev to use an aes_cbc cipher with our input info*/
@@ -186,6 +186,7 @@ static int aes_test(struct crypt_info *ci)
 {
 	uint8_t plaintext[AES_BLOCK_SIZE] = PLAINTEXT;
 	uint8_t ciphertext[AES_BLOCK_SIZE];
+	uint8_t cp_ciphertext[AES_BLOCK_SIZE + 1];
 	uint8_t iv[AES_BLOCK_SIZE];
 	uint8_t key[KEY_SIZE] = "super-duper-key";
 
@@ -197,8 +198,11 @@ static int aes_test(struct crypt_info *ci)
 	memset(&iv, 0, sizeof(iv));
 
 	aes_encrypt(ci, &iv, &plaintext, &ciphertext, AES_BLOCK_SIZE);
+
+	memcpy(&cp_ciphertext, &ciphertext, sizeof(ciphertext));
+	cp_ciphertext[AES_BLOCK_SIZE] = '\0';
 	printf("Encrypted '%s' to '%s'\n",
-	       (char *)&plaintext, (char *)&ciphertext);
+	       (char *)&plaintext, (char *)&cp_ciphertext);
 
 	/* Clear plaintext out to reuse variable */
 	dbg(3, "plaintext memset to \\0\n");
@@ -206,7 +210,7 @@ static int aes_test(struct crypt_info *ci)
 
 	aes_decrypt(ci, &iv, &ciphertext, &plaintext, AES_BLOCK_SIZE);
 	printf("Decrypted '%s' to '%s'\n",
-	       (char *)&ciphertext, (char *)&plaintext);
+	       (char *)&cp_ciphertext, (char *)&plaintext);
 
 	if (strcmp(PLAINTEXT, (char *)&plaintext) == 0)
 		printf("Test passed!\n");
