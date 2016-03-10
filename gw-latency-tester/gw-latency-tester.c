@@ -3,9 +3,9 @@
  * Description: Application to measure latency synchronously
  * Author: Pushpal Sidhu <psidhu@gateworks.com>
  * Created: Fri Aug 21 13:21:28 2015 (-0700)
- * Last-Updated: Fri Aug 28 14:35:23 2015 (-0700)
+ * Last-Updated: Fri Sep  4 17:36:22 2015 (-0700)
  *           By: Pushpal Sidhu
- *     Update #: 143
+ *     Update #: 144
  * Compatibility: Gateworks imx6 based product
  *
  * Compile: ${CC} gw-latency-tester.c -o gw-latency-tester
@@ -180,6 +180,8 @@ static void do_latency_test(unsigned int loop_count, unsigned int udelay,
 
 	/* Make sure recv is on */
 	change_val_dio(g_dio_grp[pwr], "0");
+	/* Sleep 1s to get recv in known state */
+	sleep(1);
 	while (count--) {
 		/* Let system normalize */
 		while (get_val_dio(g_dio_grp[recv]) == '0')
